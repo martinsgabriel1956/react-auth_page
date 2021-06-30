@@ -1,9 +1,10 @@
 import React, { useState, useReducer, useEffect, useContext } from 'react';
-import { Container, Actions, Control } from './styles';
+import { Container, Actions } from './styles';
 
 import { AuthContext } from '../../context/authContext';
 
 import { Button } from '../../components/UI/Button';
+import { InputField } from '../../components/InputField';
 
 function emailReducer(state, action) {
   if (action.type === 'USER_INPUT') {
@@ -78,34 +79,27 @@ export function Login(props) {
   return (
     <Container>
       <form onSubmit={handleSubmit}>
-        <Control
-          className={`${
-            emailState.isValid === false ? 'invalid' : ''
-          }`}
-        >
-          <label htmlFor="email">E-Mail</label>
-          <input
-            type="email"
-            id="email"
-            value={emailState.value}
-            onChange={handleEmailChange}
-            onBlur={handleValidateEmail}
-          />
-        </Control>
-        <Control
+        <InputField 
+          className={`${emailState.isValid === false ? "invalid" : ""}`}
+          type='email'
+          id="email"
+          value={emailState.value}
+          onChange={handleEmailChange}
+          onBlur={{handleValidateEmail}}
+          htmlFor="email"
+        />
+
+        <InputField
           className={`${
             passwordState.isValid === false ? 'invalid' : ''
           }`}
-        >
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            value={passwordState.value}
-            onChange={handlePasswordChange}
-            onBlur={handleValidatePassword}
-          />
-        </Control>
+          type="password"
+          id="password"
+          value={passwordState.value}
+          onChange={handlePasswordChange}
+          onBlur={handleValidatePassword}
+          htmlFor="password"
+        />
         <Actions>
           <Button type="submit" disabled={!formIsValid}>
             Login
