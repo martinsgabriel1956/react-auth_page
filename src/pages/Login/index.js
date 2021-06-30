@@ -1,5 +1,7 @@
-import React, { useState, useReducer, useEffect } from 'react';
+import React, { useState, useReducer, useEffect, useContext } from 'react';
 import { Container, Actions, Control } from './styles';
+
+import { AuthContext } from '../../context/authContext';
 
 import { Button } from '../../components/UI/Button';
 
@@ -35,6 +37,8 @@ export function Login(props) {
     isValid: null,
   })
 
+  const { onLogin } = useContext(AuthContext)
+
   const { isValid: emailIsValid } = emailState;
   const { isValid: passwordIsValid } = passwordState;
 
@@ -68,7 +72,7 @@ export function Login(props) {
 
   function handleSubmit(event) {
     event.preventDefault();
-    props.onLogin(emailState.value, passwordState.value);
+    onLogin(emailState.value, passwordState.value);
   };
 
   return (
