@@ -10,42 +10,49 @@ export function Login(props) {
   const [passwordIsValid, setPasswordIsValid] = useState();
   const [formIsValid, setFormIsValid] = useState(false);
 
-  useEffect(() => {
-    const identifier = setTimeout(() => {
-    setFormIsValid(
-        enteredEmail.includes('@') && enteredPassword.trim().length > 6
+  // useEffect(() => {
+  //   const identifier = setTimeout(() => {
+  //   setFormIsValid(
+  //       enteredEmail.includes('@') && enteredPassword.trim().length > 6
+  //     );
+  //   }, 500);
+  
+  //   return () => {
+    //     clearTimeout(identifier);
+    //   };
+    // }, [enteredEmail, enteredPassword])
+    
+    function handleEmailChange(event) {
+      setEnteredEmail(event.target.value);
+      setFormIsValid(
+        event.target.value.includes('@') && enteredPassword.trim().length > 6
       );
-    }, 500);
-
-    return () => {
-      clearTimeout(identifier);
     };
-  }, [enteredEmail, enteredPassword])
-
-  function emailChangeHandler(event) {
-    setEnteredEmail(event.target.value);
+    
+    function handlePasswordChange(event) {
+      setEnteredPassword(event.target.value);
+      
+      setFormIsValid(
+        enteredEmail.includes('@') && event.target.value.trim().length > 6
+      );
   };
 
-  function passwordChangeHandler(event) {
-    setEnteredPassword(event.target.value);
-  };
-
-  function validateEmailHandler() {
+  function handleValidateEmail() {
     setEmailIsValid(enteredEmail.includes('@'));
   };
 
-  function validatePasswordHandler()  {
+  function handleValidatePassword()  {
     setPasswordIsValid(enteredPassword.trim().length > 6);
   };
 
-  function submitHandler(event) {
+  function handleSubmit(event) {
     event.preventDefault();
     props.onLogin(enteredEmail, enteredPassword);
   };
 
   return (
     <Container>
-      <form onSubmit={submitHandler}>
+      <form onSubmit={handleSubmit}>
         <Control
           className={`${
             emailIsValid === false ? 'invalid' : ''
@@ -56,8 +63,8 @@ export function Login(props) {
             type="email"
             id="email"
             value={enteredEmail}
-            onChange={emailChangeHandler}
-            onBlur={validateEmailHandler}
+            onChange={handleEmailChange}
+            onBlur={handleValidateEmail}
           />
         </Control>
         <Control
@@ -70,8 +77,8 @@ export function Login(props) {
             type="password"
             id="password"
             value={enteredPassword}
-            onChange={passwordChangeHandler}
-            onBlur={validatePasswordHandler}
+            onChange={handlePasswordChange}
+            onBlur={handleValidatePassword}
           />
         </Control>
         <Actions>
