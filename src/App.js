@@ -27,9 +27,9 @@ export function App() {
   }
 
   return (
-    <AuthContext.Provider value = {{ isLoggedIn }}>
+    <AuthContext.Provider value={{ isLoggedIn, onLogout: handleLogout }}>
       <GlobalStyles />
-      <MainHeader isAuthenticated={isLoggedIn} onLogout={handleLogout} />
+      <MainHeader />
       <main>
         {!isLoggedIn && <Login onLogin={handleLogin} />}
         {isLoggedIn && <Home onLogout={handleLogout} />}

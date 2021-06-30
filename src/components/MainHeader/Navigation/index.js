@@ -4,8 +4,8 @@ import { AuthContext } from '../../../context/authContext';
 
 import { Container } from './styles';
 
-export function Navigation(props) {
-  const { isLoggedIn } = useContext(AuthContext);
+export function Navigation() {
+  const { isLoggedIn, onLogout } = useContext(AuthContext);
   return (
     <Container>
        <ul>
@@ -21,7 +21,7 @@ export function Navigation(props) {
         )}
         {isLoggedIn && (
           <li>
-            <button onClick={props.onLogout}>Logout</button>
+            <button onClick={onLogout}>Logout</button>
           </li>
         )}
       </ul>
