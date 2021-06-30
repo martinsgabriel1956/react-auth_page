@@ -1,4 +1,4 @@
-import React, { useState, useReducer, useEffect, useContext } from 'react';
+import React, { useState, useReducer, useEffect, useContext, useRef } from 'react';
 import { Container, Actions } from './styles';
 
 import { AuthContext } from '../../context/authContext';
@@ -38,7 +38,11 @@ export function Login(props) {
     isValid: null,
   })
 
-  const { onLogin } = useContext(AuthContext)
+  const { onLogin } = useContext(AuthContext);
+
+  const emailInputRef = useRef();
+  const passwordInputRef = useRef();
+
 
   const { isValid: emailIsValid } = emailState;
   const { isValid: passwordIsValid } = passwordState;
@@ -73,13 +77,21 @@ export function Login(props) {
 
   function handleSubmit(event) {
     event.preventDefault();
-    onLogin(emailState.value, passwordState.value);
+    if(formIsValid) {
+      onLogin(emailState.value, passwordState.value);
+    } else if(!formIsValid){
+      emailInputRef.current.focus();
+    } else {
+      passwordInputRef.current.focus();
+
+    }
   };
 
   return (
     <Container>
       <form onSubmit={handleSubmit}>
         <InputField 
+          ref={emailInputRef}
           className={`${emailState.isValid === false ? "invalid" : ""}`}
           type='email'
           id="email"
@@ -90,9 +102,8 @@ export function Login(props) {
         />
 
         <InputField
-          className={`${
-            passwordState.isValid === false ? 'invalid' : ''
-          }`}
+          ref={passwordInputRef}
+          className={`${passwordState.isValid === false ? 'invalid' : ''}`}
           type="password"
           id="password"
           value={passwordState.value}
@@ -101,7 +112,7 @@ export function Login(props) {
           htmlFor="password"
         />
         <Actions>
-          <Button type="submit" disabled={!formIsValid}>
+          <Button type="submit">
             Login
           </Button>
         </Actions>
